@@ -1,8 +1,10 @@
 import React from "react";
 import swal from "sweetalert";
 import { collection, addDoc } from "firebase/firestore";
-import {db} from '../firebase'
-export default function table({ data, no }) {
+import { db } from "../../firebase";
+import { format } from "date-fns";
+export default function table({ data }) {
+  var no = 1;
   const btnIzin = (item) => {
     swal({
       title: item.nama,
@@ -13,13 +15,14 @@ export default function table({ data, no }) {
       closeOnClickOutside: true,
     }).then(async (willDelete) => {
       if (willDelete) {
-          await addDoc(collection(db,'item'),{
+        await addDoc(collection(db, "item"), {
           id_siswa: item.peserta_didik_id,
           nisn: item.nisn,
           nama: item.nama,
           kelas: item.nama_rombel,
           ket: "izin",
-          })
+          tanggal: format(new Date(), "dd/MM/yyyy"),
+        });
         swal(`data izin ${item.nama} tersimpan`, {
           icon: "success",
         });
