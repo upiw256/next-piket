@@ -1,6 +1,13 @@
 import React from "react";
 import swal from "sweetalert";
-import { collection, addDoc } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  addDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../../firebase";
 import { format } from "date-fns";
 export default function table({ data }) {
@@ -13,25 +20,111 @@ export default function table({ data }) {
       buttons: true,
       dangerMode: true,
       closeOnClickOutside: true,
-    }).then(async (willDelete) => {
-      if (willDelete) {
-        await addDoc(collection(db, "item"), {
-          id_siswa: item.peserta_didik_id,
-          nisn: item.nisn,
-          nama: item.nama,
-          kelas: item.nama_rombel,
-          ket: "izin",
-          tanggal: format(new Date(), "dd/MM/yyyy"),
-        });
+    }).then(async (izin) => {
+      if (izin) {
+        const q = query(
+          collection(db, "item"),
+          where("id_siswa", "==", item.peserta_didik_id)
+        );
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.size > 0) {
+          const docRef = querySnapshot.docs[0].ref;
+          await updateDoc(docRef, {
+            izin: querySnapshot.docs[0].data().izin + 1,
+          });
+        } else {
+          await addDoc(collection(db, "item"), {
+            id_siswa: item.peserta_didik_id,
+            nisn: item.nisn,
+            nama: item.nama,
+            kelas: item.nama_rombel,
+            izin: 1,
+            sakit: 0,
+            alfa: 0,
+            tanggal: format(new Date(), "dd/MM/yyyy"),
+          });
+        }
         swal(`data izin ${item.nama} tersimpan`, {
           icon: "success",
         });
       }
     });
   };
-
-  const btnSakit = () => {
-    alert("Button Sakit");
+  const btnSakit = (item) => {
+    swal({
+      title: item.nama,
+      text: "Apakah yakin untuk sakit",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+      closeOnClickOutside: true,
+    }).then(async (sakit) => {
+      if (sakit) {
+        const q = query(
+          collection(db, "item"),
+          where("id_siswa", "==", item.peserta_didik_id)
+        );
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.size > 0) {
+          const docRef = querySnapshot.docs[0].ref;
+          await updateDoc(docRef, {
+            sakit: querySnapshot.docs[0].data().sakit + 1,
+          });
+        } else {
+          await addDoc(collection(db, "item"), {
+            id_siswa: item.peserta_didik_id,
+            nisn: item.nisn,
+            nama: item.nama,
+            kelas: item.nama_rombel,
+            izin: 0,
+            sakit: 1,
+            alfa: 0,
+            tanggal: format(new Date(), "dd/MM/yyyy"),
+          });
+        }
+        swal(`data sakit ${item.nama} tersimpan`, {
+          icon: "success",
+        });
+      }
+    });
+  };
+  const btnAlfa = (item) => {
+    swal({
+      title: item.nama,
+      text: "Apakah yakin untuk sakit",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+      closeOnClickOutside: true,
+    }).then(async (alfa) => {
+      if (alfa) {
+        const q = query(
+          collection(db, "item"),
+          where("id_siswa", "==", item.peserta_didik_id)
+        );
+        const querySnapshot = await getDocs(q);
+        if (querySnapshot.size > 0) {
+          const docRef = querySnapshot.docs[0].ref;
+          await updateDoc(docRef, {
+            alfa: querySnapshot.docs[0].data().alfa + 1,
+          });
+        } else {
+          await addDoc(collection(db, "item"), {
+            id_siswa: item.peserta_didik_id,
+            nisn: item.nisn,
+            nama: item.nama,
+            kelas: item.nama_rombel,
+            izin: 0,
+            sakit: 0,
+            alfa: 1,
+            tanggal: format(new Date(), "dd/MM/yyyy"),
+          });
+        }
+        swal(`data sakit ${item.nama} tersimpan`, {
+          icon: "success",
+        });
+      }
+    });
   };
 
   return (
@@ -61,9 +154,27 @@ export default function table({ data }) {
                 <td>{item.agama_id_str}</td>
                 <td>{item.alamat_jalan}</td>
                 <td>
-                  <button className="btn btn-primary mb-3 w-24">Izin</button>
-                  <button className="btn btn-warning mb-3 w-24">Sakit</button>
-                  <button className="btn btn-error mb-3 w-24">Alfa</button>
+                  <button
+                    className="btn btn-primary mb-3 w-24"
+                    name="izin"
+                    onClick={() => btnIzin(item)}
+                  >
+                    Izin
+                  </button>
+                  <button
+                    className="btn btn-warning mb-3 w-24"
+                    name="sakit"
+                    onClick={() => btnSakit(item)}
+                  >
+                    Sakit
+                  </button>
+                  <button
+                    className="btn btn-error mb-3 w-24"
+                    name="alfa"
+                    onClick={() => btnAlfa(item)}
+                  >
+                    Alfa
+                  </button>
                 </td>
               </tr>
             ))}
@@ -90,11 +201,15 @@ export default function table({ data }) {
               <button
                 className="btn btn-warning"
                 name="sakit"
-                onClick={btnSakit}
+                onClick={() => btnSakit(item)}
               >
                 Sakit
               </button>
-              <button className="btn btn-error" name="alfa">
+              <button
+                className="btn btn-error"
+                name="alfa"
+                onClick={() => btnAlfa(item)}
+              >
                 Alfa
               </button>
             </div>
