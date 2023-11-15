@@ -7,15 +7,16 @@ const env = require("dotenv");
 function Page() {
   const [data, setData] = useState([]);
   const [nama, setNama] = useState("");
-
+  let debounceTimer;
   const apiUrl = `http://103.229.14.238:3000/api/siswa?nama=${nama}`;
 
   const handleNamaChange = (event) => {
     setNama(event.target.value);
   };
-
+  
   const fetchData = async () => {
-    if (nama) {
+    if (nama.length >= 5) {
+      console.log(nama)
       const headers = {
         "x-barrier": "margaasih",
       };
@@ -24,7 +25,7 @@ function Page() {
         const response = await axios.get(apiUrl, { headers });
         setData(response.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        // console.error("Error fetching data:", error);
       }
     }
   };
