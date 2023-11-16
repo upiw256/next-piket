@@ -7,16 +7,18 @@ const env = require("dotenv");
 function Page() {
   const [data, setData] = useState([]);
   const [nama, setNama] = useState("");
-  let debounceTimer;
   const apiUrl = `http://103.229.14.238:3000/api/siswa?nama=${nama}`;
 
   const handleNamaChange = (event) => {
-    setNama(event.target.value);
+      setNama(event.target.value);
   };
-  
+  const handleClick = ()=>{
+    fetchData()
+  }
+
   const fetchData = async () => {
-    if (nama.length >= 5) {
-      console.log(nama)
+    if (nama) {
+      console.log(nama);
       const headers = {
         "x-barrier": "margaasih",
       };
@@ -30,13 +32,9 @@ function Page() {
     }
   };
 
-  useEffect(() => {
-    fetchData();
-  }, [nama]);
-
   return (
     <div className="h-screen w-full">
-      <Search nama={nama} handleNamaChange={handleNamaChange} />
+      <Search nama={nama} handleNamaChange={handleNamaChange} handleClick={handleClick} />
       {nama ? <Table data={data} /> : <p>Inputkan data..</p>}
     </div>
   );

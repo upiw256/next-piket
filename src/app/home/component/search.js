@@ -1,18 +1,19 @@
-import React from 'react'
+import React from "react";
 
-export default function search({nama, handleNamaChange}) {
+export default function search({ nama, handleNamaChange, handleClick }) {
   return (
     <>
-    <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center mt-3">
         <input
           type="text"
           value={nama}
           onChange={handleNamaChange}
           placeholder="Masukkan nama"
-          className="mt-3 input input-bordered input-neutral w-full max-w-xs"
+          className=" input input-bordered input-neutral w-full max-w-xs"
         />
+        <button className="btn btn-primary ml-3" onClick={handleClick}>Cari</button>
       </div>
       <h1 className="ml-3">Data dari API:</h1>
     </>
-  )
+  );
 }

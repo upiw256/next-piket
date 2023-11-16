@@ -181,8 +181,8 @@ export default function table({ data }) {
           </tbody>
         </table>
       </div>
-      {data.map((item) => (
-        <div className="card w-96 bg-info shadow-xl m-3 block md:hidden">
+      {data.map((item, index) => (
+        <div className="card w-96 bg-info shadow-xl m-3 block md:hidden" key={index}>
           <div className="card-body">
             <h2 className="card-title">{item.nama}</h2>
             ___________________________________________
