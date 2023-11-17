@@ -1,8 +1,9 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import Table from "./home/component/table";
 import Search from "./home/component/search";
+import Swal from "sweetalert";
 const env = require("dotenv");
 function Page() {
   const [data, setData] = useState([]);
@@ -10,11 +11,19 @@ function Page() {
   const apiUrl = `http://103.229.14.238:3000/api/siswa?nama=${nama}`;
 
   const handleNamaChange = (event) => {
-      setNama(event.target.value);
+    setNama(event.target.value);
   };
-  const handleClick = ()=>{
-    fetchData()
-  }
+  const handleClick = () => {
+    if (nama.trim() != "") {
+      fetchData();
+    } else {
+      Swal({
+        icon: "warning",
+        title: "Harap isi nama",
+        text: "Nama tidak boleh kosong",
+      });
+    }
+  };
 
   const fetchData = async () => {
     if (nama) {
@@ -31,10 +40,13 @@ function Page() {
       }
     }
   };
-
   return (
     <div className="h-screen w-full">
-      <Search nama={nama} handleNamaChange={handleNamaChange} handleClick={handleClick} />
+      <Search
+        nama={nama}
+        handleNamaChange={handleNamaChange}
+        handleClick={handleClick}
+      />
       {nama ? <Table data={data} /> : <p>Inputkan data..</p>}
     </div>
   );
