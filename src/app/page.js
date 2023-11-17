@@ -27,7 +27,7 @@ function Page() {
 
   const fetchData = async () => {
     if (nama) {
-      console.log(nama);
+      // console.log(nama);
       const headers = {
         "x-barrier": "margaasih",
       };
@@ -36,7 +36,12 @@ function Page() {
         const response = await axios.get(apiUrl, { headers });
         setData(response.data);
       } catch (error) {
-        // console.error("Error fetching data:", error);
+        console.error("Error :", error.message);
+        Swal({
+          icon: "warning",
+          title: "Tidak ditemuka",
+          text: `Data dengan nama ${nama} tidak ditemukan`,
+        });
       }
     }
   };
