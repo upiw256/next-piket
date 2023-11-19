@@ -128,7 +128,8 @@ export default function table({ data }) {
   };
 
   return (
-    <div className="overflow-x-auto ">
+    <div className="overflow-x-auto">
+      <h1 className="font-bold text-2xl flex items-center justify-center m-3">Data dari Dapodik:</h1>
       <div className="hidden md:block">
         <table className="table table-xs">
           <thead>
@@ -182,7 +183,8 @@ export default function table({ data }) {
         </table>
       </div>
       {data.map((item, index) => (
-        <div className="card w-96 bg-info shadow-xl m-3 block md:hidden" key={index}>
+        <div className="flex items-center justify-center w-screen">
+        <div className="card w-96 bg-info shadow-xl mb-3 md:hidden" key={index}>
           <div className="card-body">
             <h2 className="card-title">{item.nama}</h2>
             ___________________________________________
@@ -214,6 +216,7 @@ export default function table({ data }) {
               </button>
             </div>
           </div>
+        </div>
         </div>
       ))}
     </div>

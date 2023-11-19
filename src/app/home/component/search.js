@@ -13,7 +13,7 @@ export default function search({ nama, handleNamaChange, handleClick }) {
         />
         <button className="btn btn-primary ml-3" onClick={handleClick}>Cari</button>
       </div>
-      <h1 className="ml-3">Data dari API:</h1>
+      
     </>
   );
 }
