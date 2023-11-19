@@ -26,6 +26,7 @@ export default function menu() {
   return (
     <>
       {/* Mobile Menu */}
+        <div className="bg-blue-400 w-screen h-14 flex md:hidden items-center justify-center text-2xl font-bold text-white">APK ABSEN</div>
       <div className="btm-nav flex md:hidden">
         <Link
           href={"/"}
