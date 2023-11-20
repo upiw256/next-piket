@@ -2,40 +2,25 @@
 import Link from "next/link";
 import React, { useState } from "react";
 export default function menu() {
-  const [areButtonsActive, setAreButtonsActive] = useState({
-    button1: true,
-    button2: false,
-  });
+  const [currentPath, setCurrentPath] = useState("/");
 
-  const handleClickButton1 = () => {
-    setAreButtonsActive((prevState) => ({
-      ...prevState,
-      button1: !prevState.button1,
-      button2: false,
-    }));
-  };
-
-  const handleClickButton2 = () => {
-    setAreButtonsActive((prevState) => ({
-      ...prevState,
-      button1: false,
-      button2: !prevState.button2,
-    }));
+  const active = (path) => {
+    setCurrentPath(path);
   };
 
   return (
     <>
       {/* Mobile Menu */}
-        <div className="bg-blue-400 w-screen h-14 flex md:hidden items-center justify-center text-2xl font-bold text-white">APK ABSEN</div>
+      <div className="bg-blue-400 w-screen h-14 flex md:hidden items-center justify-center text-2xl font-bold text-white">
+        APK ABSEN
+      </div>
       <div className="btm-nav flex z-[1] md:hidden">
         <Link
           href={"/"}
           className={
-            areButtonsActive.button1
-              ? "active bg-primary text-gray-400"
-              : "bg-blue-200"
+            currentPath === "/" ? "active bg-primary text-black" : "bg-blue-200"
           }
-          onClick={handleClickButton1}
+          onClick={() => active("/")}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -56,11 +41,11 @@ export default function menu() {
         <Link
           href={"/rekap"}
           className={
-            areButtonsActive.button2
-              ? "active bg-primary text-gray-400"
+            currentPath === "/rekap"
+              ? "active bg-primary text-black"
               : "bg-blue-200"
           }
-          onClick={handleClickButton2}
+          onClick={() => active("/rekap")}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

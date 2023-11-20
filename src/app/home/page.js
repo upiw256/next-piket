@@ -8,7 +8,7 @@ const env = require("dotenv");
 function Page() {
   const [data, setData] = useState([]);
   const [nama, setNama] = useState("");
-  const [loading, setLoading] =useState(false)
+  const [loading, setLoading] = useState(false);
   const apiUrl = `http://103.229.14.238:3000/api/siswa?nama=${nama}`;
 
   const handleNamaChange = (event) => {
@@ -23,11 +23,12 @@ function Page() {
         title: "Harap isi nama",
         text: "Nama tidak boleh kosong",
       });
+      setData([]);
     }
   };
 
   const fetchData = async () => {
-    setLoading(true)
+    setLoading(true);
     if (nama) {
       // console.log(nama);
       const headers = {
@@ -37,7 +38,7 @@ function Page() {
       try {
         const response = await axios.get(apiUrl, { headers });
         setData(response.data);
-        setLoading(false)
+        setLoading(false);
       } catch (error) {
         console.error("Error :", error.message);
         Swal({
@@ -55,11 +56,13 @@ function Page() {
         handleNamaChange={handleNamaChange}
         handleClick={handleClick}
       />
-      {loading ? 
-      <div className="flex items-center justify-center h-full">
-          <img src="/loading.svg" alt="My SVG Icon"/> 
-      </div>
-      : <Table data={data} />}
+      {loading ? (
+        <div className="flex items-center justify-center h-full">
+          <img src="/loading.svg" alt="My SVG Icon" />
+        </div>
+      ) : (
+        <Table data={data} />
+      )}
     </div>
   );
 }

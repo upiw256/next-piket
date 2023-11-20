@@ -129,7 +129,9 @@ export default function table({ data }) {
 
   return (
     <div className="overflow-x-auto">
-      <h1 className="font-bold text-2xl flex items-center justify-center m-3">Data dari Dapodik:</h1>
+      <h1 className="font-bold text-2xl flex items-center justify-center m-3">
+        Data dari Dapodik:
+      </h1>
       <div className="hidden md:block">
         <table className="table table-xs">
           <thead>
@@ -184,39 +186,42 @@ export default function table({ data }) {
       </div>
       {data.map((item, index) => (
         <div className="flex items-center justify-center w-screen">
-        <div className="card w-96 bg-info shadow-xl mb-3 md:hidden" key={index}>
-          <div className="card-body">
-            <h2 className="card-title">{item.nama}</h2>
-            ___________________________________________
-            <p>NISN: {item.nisn}</p>
-            <p>Jenis Kelamin: {item.jenis_kelamin}</p>
-            <p>Tanggal Lahir: {item.tanggal_lahir}</p>
-            <p>Kelas: {item.nama_rombel}</p>
-            <div className="card-actions justify-end">
-              <button
-                className="btn btn-primary"
-                name="izin"
-                onClick={() => btnIzin(item)}
-              >
-                Izin
-              </button>
-              <button
-                className="btn btn-warning"
-                name="sakit"
-                onClick={() => btnSakit(item)}
-              >
-                Sakit
-              </button>
-              <button
-                className="btn btn-error"
-                name="alfa"
-                onClick={() => btnAlfa(item)}
-              >
-                Alfa
-              </button>
+          <div
+            className="card w-96 bg-info shadow-xl mb-3 md:hidden"
+            key={index}
+          >
+            <div className="card-body">
+              <h2 className="card-title">{item.nama}</h2>
+              ___________________________________________
+              <p>NISN: {item.nisn}</p>
+              <p>Jenis Kelamin: {item.jenis_kelamin}</p>
+              <p>Tanggal Lahir: {item.tanggal_lahir}</p>
+              <p>Kelas: {item.nama_rombel}</p>
+              <div className="card-actions justify-end">
+                <button
+                  className="btn btn-primary"
+                  name="izin"
+                  onClick={() => btnIzin(item)}
+                >
+                  Izin
+                </button>
+                <button
+                  className="btn btn-warning"
+                  name="sakit"
+                  onClick={() => btnSakit(item)}
+                >
+                  Sakit
+                </button>
+                <button
+                  className="btn btn-error"
+                  name="alfa"
+                  onClick={() => btnAlfa(item)}
+                >
+                  Alfa
+                </button>
+              </div>
             </div>
           </div>
-        </div>
         </div>
       ))}
     </div>
