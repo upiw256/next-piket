@@ -38,6 +38,7 @@ export default function menu() {
           </svg>
           <span className="btm-nav-label">Home</span>
         </Link>
+
         <Link
           href={"/rekap"}
           className={

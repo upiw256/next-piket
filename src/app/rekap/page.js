@@ -2,33 +2,27 @@
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../firebase";
 import React, { useEffect, useState } from "react";
-import SelectKelas from './component/select'
-import TableRekap from './component/table'
+import SelectKelas from "./component/select";
+import TableRekap from "./component/table";
 
 export default function page() {
   const [data, setData] = useState([]);
-  const [select, setSelect]=useState("")
+  const [select, setSelect] = useState("");
 
   const handleSelect = (event) => {
     setSelect(event.target.value);
-    console.log(select)
   };
 
-  
   useEffect(() => {
     const fetchData = async () => {
-      if(select){
+      if (select) {
         try {
-          const q = query(
-            collection(db, "item"),
-            where("kelas", "==", select)
-          );
+          const q = query(collection(db, "item"), where("kelas", "==", select));
           const querySnapshot = await getDocs(q);
           const dataArray = querySnapshot.docs.map((doc) => ({
             id: doc.id,
             ...doc.data(),
           }));
-          console.log(dataArray)
           setData(dataArray);
         } catch (error) {
           console.error("Error fetching data from Firestore:", error);

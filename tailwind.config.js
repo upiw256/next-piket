@@ -12,29 +12,33 @@ module.exports = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      height: {
+        "100-dvh": "100dvh",
+        "100-svh": "100svh",
+      },
     },
   },
   daisyui: {
     themes: [
       {
         mytheme: {
-          "primary": "#4586f7",
+          primary: "#4586f7",
 
-          "secondary": "#45ccd3",
+          secondary: "#45ccd3",
 
-          "accent": "#a51349",
+          accent: "#a51349",
 
-          "neutral": "#1a191f",
+          neutral: "#1a191f",
 
           "base-100": "#eef1f6",
 
-          "info": "#96bee4",
+          info: "#96bee4",
 
-          "success": "#32e29e",
+          success: "#32e29e",
 
-          "warning": "#f9da5d",
+          warning: "#f9da5d",
 
-          "error": "#ea7f7b",
+          error: "#ea7f7b",
         },
       },
     ],
