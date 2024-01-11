@@ -4,6 +4,7 @@ import { db } from "../firebase";
 import React, { useEffect, useState } from "react";
 import SelectKelas from "./component/select";
 import TableRekap from "./component/table";
+import ScrollToTopButton from "../components/ScrollToTopButton";
 
 export default function page() {
   const [data, setData] = useState([]);
@@ -35,6 +36,7 @@ export default function page() {
     <div className="m-3">
       <SelectKelas select={select} handleSelect={handleSelect} />
       {select ? <TableRekap data={data} /> : <p>Pilih Kelas</p>}
+      <ScrollToTopButton />
     </div>
   );
 }

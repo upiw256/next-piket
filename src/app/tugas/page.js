@@ -4,7 +4,6 @@ import axios from "axios";
 import Table from "./component/table";
 import Search from "./component/search";
 import ScrollToTopButton from "../components/ScrollToTopButton";
-import Syncron from "../components/syncron";
 import Swal from "sweetalert";
 const env = require("dotenv");
 function Page() {
@@ -12,11 +11,12 @@ function Page() {
   const [nama, setNama] = useState("");
   const [loading, setLoading] = useState(false);
   const apiUrl = `http://103.229.14.238:3000/api/siswa?nama=${nama}`;
+
   const handleNamaChange = (event) => {
     setNama(event.target.value);
   };
   const handleClick = () => {
-    if (nama.trim() !== "") {
+    if (nama.trim() != "") {
       fetchData();
     } else {
       Swal({
@@ -27,28 +27,33 @@ function Page() {
       setData([]);
     }
   };
+
   const fetchData = async () => {
     setLoading(true);
-    try {
+    if (nama) {
+      // console.log(nama);
       const headers = {
         "x-barrier": "margaasih",
       };
-      const response = await axios.get(apiUrl, { headers });
-      setData(response.data);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error :", error.message);
-      Swal({
-        icon: "warning",
-        title: "Tidak ditemuka",
-        text: `Data dengan nama ${nama} tidak ditemukan`,
-      });
+
+      try {
+        const response = await axios.get(apiUrl, { headers });
+        setData(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error :", error.message);
+        Swal({
+          icon: "warning",
+          title: "Tidak ditemuka",
+          text: `Data dengan nama ${nama} tidak ditemukan`,
+        });
+        setLoading(false);
+      }
     }
   };
   return (
     <div>
-      <p className="px-3">Input Absen</p>
-      <Syncron />
+      <p className="px-3">Input Tugas</p>
       <Search
         nama={nama}
         handleNamaChange={handleNamaChange}

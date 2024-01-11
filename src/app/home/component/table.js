@@ -24,6 +24,14 @@ export default function table({ data }) {
     }).then(async (izin) => {
       setLoading(true);
       if (izin) {
+        await addDoc(collection(db, "absen"), {
+          id_siswa: item.peserta_didik_id,
+          nisn: item.nisn,
+          nama: item.nama,
+          kelas: item.nama_rombel,
+          Ket: "Izin",
+          tanggal: format(new Date(), "dd/MM/yyyy"),
+        });
         const q = query(
           collection(db, "item"),
           where("id_siswa", "==", item.peserta_didik_id)
@@ -49,6 +57,7 @@ export default function table({ data }) {
         swal(`data izin ${item.nama} tersimpan`, {
           icon: "success",
         });
+        setLoading(false);
       }
     });
   };
@@ -63,6 +72,14 @@ export default function table({ data }) {
     }).then(async (sakit) => {
       setLoading(true);
       if (sakit) {
+        await addDoc(collection(db, "absen"), {
+          id_siswa: item.peserta_didik_id,
+          nisn: item.nisn,
+          nama: item.nama,
+          kelas: item.nama_rombel,
+          Ket: "Sakit",
+          tanggal: format(new Date(), "dd/MM/yyyy"),
+        });
         const q = query(
           collection(db, "item"),
           where("id_siswa", "==", item.peserta_didik_id)
@@ -88,13 +105,14 @@ export default function table({ data }) {
         swal(`data sakit ${item.nama} tersimpan`, {
           icon: "success",
         });
+        setLoading(false);
       }
     });
   };
   const btnAlfa = (item) => {
     swal({
       title: item.nama,
-      text: "Apakah yakin untuk sakit",
+      text: "Apakah yakin untuk alfa",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -102,6 +120,14 @@ export default function table({ data }) {
     }).then(async (alfa) => {
       setLoading(true);
       if (alfa) {
+        await addDoc(collection(db, "absen"), {
+          id_siswa: item.peserta_didik_id,
+          nisn: item.nisn,
+          nama: item.nama,
+          kelas: item.nama_rombel,
+          Ket: "Alfa",
+          tanggal: format(new Date(), "dd/MM/yyyy"),
+        });
         const q = query(
           collection(db, "item"),
           where("id_siswa", "==", item.peserta_didik_id)
@@ -127,6 +153,7 @@ export default function table({ data }) {
         swal(`data sakit ${item.nama} tersimpan`, {
           icon: "success",
         });
+        setLoading(false);
       }
     });
   };
