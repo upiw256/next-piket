@@ -1,7 +1,14 @@
 "use client";
 import axios from "axios";
 import React, { useState } from "react";
-import { collection, addDoc, getDocs, deleteDoc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  getDocs,
+  deleteDoc,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "../firebase";
 
 async function clearCollection(collectionPath) {
@@ -24,20 +31,27 @@ export default function syncron() {
     setIsLoading(true); // Set loading state to true
 
     try {
-      clearCollection("siswa");
+      // clearCollection("siswa");
       const response = await axios.get(apiUrl, { headers });
       const data = response.data.rows;
-
+      let no = 0;
       for (const item of data) {
         const { peserta_didik_id, nisn, nama, nama_rombel, alamat_jalan } =
           item;
-        await addDoc(collection(db, "siswa"), {
-          id_siswa: peserta_didik_id,
-          nisn,
-          nama,
-          kelas: nama_rombel,
-          alamat: alamat_jalan,
-        });
+        const q = query(
+          collection(db, "siswa"),
+          where("id_siswa", "==", peserta_didik_id)
+        );
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.size > 0) {
+          await addDoc(collection(db, "siswa"), {
+            id_siswa: peserta_didik_id,
+            nisn,
+            nama,
+            kelas: nama_rombel,
+            alamat: alamat_jalan,
+          });
+        }
       }
 
       setIsLoading(false); // Set loading state to false after API call is complete

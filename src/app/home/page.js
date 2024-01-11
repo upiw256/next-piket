@@ -1,20 +1,37 @@
 "use client";
 import React, { useState } from "react";
-import axios from "axios";
 import Table from "./component/table";
 import Search from "./component/search";
 import ScrollToTopButton from "../components/ScrollToTopButton";
 import Syncron from "../components/syncron";
 import Swal from "sweetalert";
-const env = require("dotenv");
+import { db } from "../firebase";
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  orderBy,
+  startAt,
+  endAt,
+} from "firebase/firestore";
+
 function Page() {
   const [data, setData] = useState([]);
   const [nama, setNama] = useState("");
   const [loading, setLoading] = useState(false);
-  const apiUrl = `http://103.229.14.238:3000/api/siswa?nama=${nama}`;
   const handleNamaChange = (event) => {
-    setNama(event.target.value);
+    setNama(capitalizeFirstLetter(event.target.value)); // capitalizeFirstLetter(event.target.value);
   };
+  function capitalizeFirstLetter(inputString) {
+    // Check if the input is a non-empty string
+    if (typeof inputString !== "string" || inputString.length === 0) {
+      return inputString;
+    }
+
+    // Capitalize the first letter and concatenate the rest of the string
+    return inputString.charAt(0).toUpperCase() + inputString.slice(1);
+  }
   const handleClick = () => {
     if (nama.trim() !== "") {
       fetchData();
@@ -30,11 +47,16 @@ function Page() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const headers = {
-        "x-barrier": "margaasih",
-      };
-      const response = await axios.get(apiUrl, { headers });
-      setData(response.data);
+      const q = query(
+        collection(db, "siswa"),
+        orderBy("nama"),
+        startAt(nama),
+        endAt(nama + "\uf8ff")
+      );
+      const querySnapshot = await getDocs(q);
+      const siswa = querySnapshot.docs.map((doc) => doc.data());
+      setData(siswa);
+      console.log(siswa);
       setLoading(false);
     } catch (error) {
       console.error("Error :", error.message);
