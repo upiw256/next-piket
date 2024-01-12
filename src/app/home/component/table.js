@@ -13,6 +13,19 @@ import { format } from "date-fns";
 export default function table({ data }) {
   const [loading, setLoading] = useState(false);
   var no = 1;
+  const formatDate = (inputDate) => {
+    const dateArray = inputDate.split("-");
+    const year = dateArray[0];
+    const month = dateArray[1];
+    const day = dateArray[2];
+
+    // Format tanggal dalam format "dd-mm-yyyy"
+    const formattedDate = `${day}-${month}-${year}`;
+    return formattedDate;
+  };
+  const kelamin = (item) => {
+    return item === "L" ? "Laki-laki" : "Perempuan";
+  };
   const btnIzin = (item) => {
     swal({
       title: item.nama,
@@ -28,7 +41,7 @@ export default function table({ data }) {
           id_siswa: item.peserta_didik_id,
           nisn: item.nisn,
           nama: item.nama,
-          kelas: item.nama_rombel,
+          kelas: item.kelas,
           Ket: "Izin",
           tanggal: format(new Date(), "dd/MM/yyyy"),
         });
@@ -47,7 +60,7 @@ export default function table({ data }) {
             id_siswa: item.peserta_didik_id,
             nisn: item.nisn,
             nama: item.nama,
-            kelas: item.nama_rombel,
+            kelas: item.kelas,
             izin: 1,
             sakit: 0,
             alfa: 0,
@@ -76,7 +89,7 @@ export default function table({ data }) {
           id_siswa: item.peserta_didik_id,
           nisn: item.nisn,
           nama: item.nama,
-          kelas: item.nama_rombel,
+          kelas: item.kelas,
           Ket: "Sakit",
           tanggal: format(new Date(), "dd/MM/yyyy"),
         });
@@ -95,7 +108,7 @@ export default function table({ data }) {
             id_siswa: item.peserta_didik_id,
             nisn: item.nisn,
             nama: item.nama,
-            kelas: item.nama_rombel,
+            kelas: item.kelas,
             izin: 0,
             sakit: 1,
             alfa: 0,
@@ -124,7 +137,7 @@ export default function table({ data }) {
           id_siswa: item.peserta_didik_id,
           nisn: item.nisn,
           nama: item.nama,
-          kelas: item.nama_rombel,
+          kelas: item.kelas,
           Ket: "Alfa",
           tanggal: format(new Date(), "dd/MM/yyyy"),
         });
@@ -143,7 +156,7 @@ export default function table({ data }) {
             id_siswa: item.peserta_didik_id,
             nisn: item.nisn,
             nama: item.nama,
-            kelas: item.nama_rombel,
+            kelas: item.kelas,
             izin: 0,
             sakit: 0,
             alfa: 1,
@@ -189,11 +202,11 @@ export default function table({ data }) {
                   <td>{no++}</td>
                   <td>{item.nisn}</td>
                   <td>{item.nama}</td>
-                  <td>{item.jenis_kelamin}</td>
-                  <td>{item.tanggal_lahir}</td>
-                  <td>{item.nama_rombel}</td>
-                  <td>{item.agama_id_str}</td>
-                  <td>{item.alamat_jalan}</td>
+                  <td>{kelamin(item.jenis_kelamin)}</td>
+                  <td>{formatDate(item.tanggal_lahir)}</td>
+                  <td>{item.kelas}</td>
+                  <td>{item.agama}</td>
+                  <td>{item.alamat}</td>
                   <td>
                     <button
                       className="btn btn-primary mb-3 w-24"
@@ -233,9 +246,9 @@ export default function table({ data }) {
               <h2 className="card-title">{item.nama}</h2>
               ___________________________________________
               <p>NISN: {item.nisn}</p>
-              <p>Jenis Kelamin: {item.jenis_kelamin}</p>
-              <p>Tanggal Lahir: {item.tanggal_lahir}</p>
-              <p>Kelas: {item.nama_rombel}</p>
+              <p>Jenis Kelamin: {kelamin(item.jenis_kelamin)}</p>
+              <p>Tanggal Lahir: {formatDate(item.tanggal_lahir)}</p>
+              <p>Kelas: {item.kelas}</p>
               <div className="card-actions justify-end">
                 <button
                   className="btn btn-primary"

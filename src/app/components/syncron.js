@@ -19,7 +19,7 @@ async function clearCollection(collectionPath) {
   });
 }
 export default function syncron() {
-  const [data, setData] = useState([]);
+  const [loadingPercentage, setLoadingPercentage] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
 
   const syncronizeData = async () => {
@@ -34,24 +34,33 @@ export default function syncron() {
       // clearCollection("siswa");
       const response = await axios.get(apiUrl, { headers });
       const data = response.data.rows;
-      let no = 0;
+      const totalData = data.length;
+      let loadedData = 0;
+      clearCollection("siswa");
       for (const item of data) {
-        const { peserta_didik_id, nisn, nama, nama_rombel, alamat_jalan } =
+        const { peserta_didik_id, nisn, nama, nama_rombel, alamat_jalan, jenis_kelamin,tanggal_lahir,agama_id_str } =
           item;
         const q = query(
           collection(db, "siswa"),
           where("id_siswa", "==", peserta_didik_id)
         );
         const querySnapshot = await getDocs(q);
-        if (!querySnapshot.size > 0) {
+        console.log(querySnapshot.size);
+        if (querySnapshot.size == 0) {
           await addDoc(collection(db, "siswa"), {
             id_siswa: peserta_didik_id,
             nisn,
-            nama,
+            jenis_kelamin,
+            agama: agama_id_str,
+            tanggal_lahir,
+            nama: nama.toLowerCase(),
             kelas: nama_rombel,
             alamat: alamat_jalan,
           });
         }
+        loadedData++;
+        const percentage = Math.floor((loadedData / totalData) * 100);
+        setLoadingPercentage(percentage);
       }
 
       setIsLoading(false); // Set loading state to false after API call is complete
@@ -64,7 +73,12 @@ export default function syncron() {
   return (
     <div>
       {isLoading ? (
-        <div>Loading...</div> // Display loading state if isLoading is true
+        <div className="w-full h-2 bg-gray-200 rounded-md overflow-hidden">
+          <div
+            className="h-full bg-blue-500 transition-all duration-300 ease-in-out"
+            style={{ width: `${loadingPercentage}%` }}
+          ></div>
+        </div> // Display loading state if isLoading is true
       ) : (
         <button className="btn btn-primary mx-3" onClick={syncronizeData}>
           Syncron

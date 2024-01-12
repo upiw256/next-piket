@@ -21,7 +21,7 @@ function Page() {
   const [nama, setNama] = useState("");
   const [loading, setLoading] = useState(false);
   const handleNamaChange = (event) => {
-    setNama(capitalizeFirstLetter(event.target.value)); // capitalizeFirstLetter(event.target.value);
+    setNama(event.target.value); // capitalizeFirstLetter(event.target.value);
   };
   function capitalizeFirstLetter(inputString) {
     // Check if the input is a non-empty string
