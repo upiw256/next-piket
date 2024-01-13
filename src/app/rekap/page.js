@@ -4,7 +4,7 @@ import { db } from "../firebase";
 import React, { useEffect, useState } from "react";
 import SelectKelas from "./component/select";
 import TableRekap from "./component/table";
-import ScrollToTopButton from "../components/ScrollToTopButton";
+import ScrollToTopButton from "../function/ScrollToTopButton";
 
 export default function page() {
   const [data, setData] = useState([]);
