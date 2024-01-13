@@ -54,7 +54,7 @@ const CameraComponent = () => {
   }, []);
   return (
     <div>
-      <video id="webcam" width="640" height="480" autoPlay></video>
+      <video id="webcam" autoPlay className="w-screen h-1/3"></video>
       <div className="w-screen mt-3 flex justify-center">
         <button
           onClick={handleTakePhoto}
@@ -87,7 +87,11 @@ const CameraComponent = () => {
       {uploadedImageUrl && (
         <div>
           <p>Uploaded Image:</p>
-          <img src={uploadedImageUrl} alt="Uploaded" className="mt-2" />
+          <img
+            src={uploadedImageUrl}
+            alt="Uploaded"
+            className="w-screen h-1/3 mt-2"
+          />
         </div>
       )}
     </div>
