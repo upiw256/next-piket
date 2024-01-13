@@ -2,14 +2,13 @@
 import React, { useState } from "react";
 import Table from "./component/table";
 import Search from "./component/search";
-import ScrollToTopButton from "../components/ScrollToTopButton";
-import Syncron from "../components/syncron";
+import ScrollToTopButton from "../function/ScrollToTopButton";
+import Syncron from "../function/syncron";
 import Swal from "sweetalert";
 import { db } from "../firebase";
 import {
   collection,
   query,
-  where,
   getDocs,
   orderBy,
   startAt,
