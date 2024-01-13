@@ -23,7 +23,7 @@ export default function syncron() {
   const [isLoading, setIsLoading] = useState(false);
 
   const syncronizeData = async () => {
-    const apiUrl = "http://103.229.14.238:3000/api/siswa";
+    const apiUrl = "https://103.229.14.238:3000/api/siswa";
     const headers = {
       "x-barrier": "margaasih",
     };
