@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Table from "./component/table";
 import Search from "./component/search";
-import ScrollToTopButton from "../components/ScrollToTopButton";
+import ScrollToTopButton from "../function/ScrollToTopButton";
 import Swal from "sweetalert";
 const env = require("dotenv");
 function Page() {
