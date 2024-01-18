@@ -23,9 +23,9 @@ export default function syncron() {
   const [isLoading, setIsLoading] = useState(false);
 
   const syncronizeData = async () => {
-    const apiUrl = "https://103.229.14.238:3000/api/siswa";
+    const apiUrl = process.env.LINK_API + "siswa";
     const headers = {
-      "x-barrier": "margaasih",
+      "x-barrier": process.env.HEADER_API,
     };
 
     setIsLoading(true); // Set loading state to true
@@ -38,8 +38,16 @@ export default function syncron() {
       let loadedData = 0;
       clearCollection("siswa");
       for (const item of data) {
-        const { peserta_didik_id, nisn, nama, nama_rombel, alamat_jalan, jenis_kelamin,tanggal_lahir,agama_id_str } =
-          item;
+        const {
+          peserta_didik_id,
+          nisn,
+          nama,
+          nama_rombel,
+          alamat_jalan,
+          jenis_kelamin,
+          tanggal_lahir,
+          agama_id_str,
+        } = item;
         const q = query(
           collection(db, "siswa"),
           where("id_siswa", "==", peserta_didik_id)
